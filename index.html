@@ -13,6 +13,7 @@
             height: 100vh;
             margin: 0;
             background-color: #f0f0f0;
+            overflow: hidden;
         }
 
         .container {
@@ -20,13 +21,15 @@
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-in-out;
         }
 
         .fact-box {
             margin: 20px 0;
             font-size: 1.2em;
             color: #333;
+            transition: transform 0.5s;
         }
 
         button {
@@ -37,16 +40,43 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
         }
 
         button:hover {
             background-color: #0056b3;
+            transform: scale(1.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .image-container {
+            margin: 20px 0;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            animation: slideIn 1s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Fun Fact Generator</h1>
+        <div class="image-container">
+            <img id="fact-image" src="https://via.placeholder.com/400" alt="Earth Image">
+        </div>
         <div id="fact" class="fact-box">
             Click the button to see a fun fact!
         </div>
@@ -54,21 +84,27 @@
     </div>
     <script>
         const facts = [
-            "Earth is the third planet from the Sun.",
-            "Earth is the only planet known to support life.",
-            "About 71% of Earth's surface is covered with water.",
-            "Earth has one natural satellite, the Moon.",
-            "Earth's atmosphere is composed of 78% nitrogen and 21% oxygen.",
-            "The Earth's rotation is gradually slowing down.",
-            "Earth's core is composed mostly of iron and nickel.",
-            "The Earth's magnetic field protects it from solar wind.",
-            "Earth is approximately 4.5 billion years old.",
-            "The highest point on Earth is Mount Everest."
+            { text: "Earth is the third planet from the Sun.", image: "https://via.placeholder.com/400?text=Earth+from+Sun" },
+            { text: "Earth is the only planet known to support life.", image: "https://via.placeholder.com/400?text=Life+on+Earth" },
+            { text: "About 71% of Earth's surface is covered with water.", image: "https://via.placeholder.com/400?text=Earth's+Water" },
+            { text: "Earth has one natural satellite, the Moon.", image: "https://via.placeholder.com/400?text=Moon" },
+            { text: "Earth's atmosphere is composed of 78% nitrogen and 21% oxygen.", image: "https://via.placeholder.com/400?text=Atmosphere" },
+            { text: "The Earth's rotation is gradually slowing down.", image: "https://via.placeholder.com/400?text=Rotation" },
+            { text: "Earth's core is composed mostly of iron and nickel.", image: "https://via.placeholder.com/400?text=Core" },
+            { text: "The Earth's magnetic field protects it from solar wind.", image: "https://via.placeholder.com/400?text=Magnetic+Field" },
+            { text: "Earth is approximately 4.5 billion years old.", image: "https://via.placeholder.com/400?text=Age" },
+            { text: "The highest point on Earth is Mount Everest.", image: "https://via.placeholder.com/400?text=Mount+Everest" }
         ];
 
         function generateFact() {
             const randomIndex = Math.floor(Math.random() * facts.length);
-            document.getElementById('fact').textContent = facts[randomIndex];
+            const fact = facts[randomIndex];
+            document.getElementById('fact').textContent = fact.text;
+            document.getElementById('fact-image').src = fact.image;
+            document.getElementById('fact').style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                document.getElementById('fact').style.transform = 'scale(1)';
+            }, 500);
         }
     </script>
 </body>
